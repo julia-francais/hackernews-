@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import logo from './logo.svg';
 import './App.css';
+import Search  from './components/Search'
+import Table  from './components/Table'
 
 const list = [
   {
@@ -48,38 +50,20 @@ class App extends Component {
   }
 
   render() {
+    const { searchTerm, list} = this.state;
+
     return (
     <div className="App">
-      <form>
-        <input type="text"
+      <Search 
+        value={searchTerm}
         onChange={this.onSearchChange}
         />
-      </form>
-    
-      {this.state.list.filter(isSearched(this.state.searchTerm)).map(item => {
-        const onHandleDismiss = () =>
-          this.onDismiss(item.objectID);
-        
-        return (
-          <div key={item.objectID}>
-            <span>
-              <a href={item.url}>{item.title}</a>
-            </span>
-            <span>{item.author}</span>
-            <span>{item.num_comments}</span>
-            <span>{item.points}</span>
-            <span>
-              <button
-              onClick={onHandleDismiss}
-              type="button"
-              >
-              Dismiss
-              </button>
-            </span>
-          </div>
-           );
-         }
-       )}
+      
+      <Table
+      list= {list}
+      pattern = {searchTerm}
+      onDismiss= {this.onDismiss}
+      />
   </div>
     );
   }
