@@ -1,41 +1,46 @@
-import React, {Component} from 'react';
+import React from "react";
+import { isSearched } from "../App";
+import "../App.css";
+import Button from "./Button";
 
-const isSearched = searchTerm => 
-   item => {
-    return item.title.toLowerCase().includes(searchTerm.toLowerCase());
-  }
+const Table = ({ list, pattern, onDismiss }) => (
+  <div className="table">
+    {list.filter(isSearched(pattern)).map(item => (
+      <div key={item.objectID} className="table-row">
+        <span style={largeColumn}>
+          <a href={item.url}>{item.title}</a>
+        </span>
 
+        <span style={midColumn}>{item.author}</span>
 
-class Table extends Component {
-  render() {
-    const { list, pattern, onDismiss } = this.props;
-    return (
-      <div>     
-        {list.filter(isSearched(pattern)).map((item) => 
-            <div key={item.objectID}>
-                <span>
-                <a href={item.url}>{item.title}</a>
-                </span>
+        <span style={smallColumn}>{item.num_comments}</span>
 
-                <span>{item.author}</span>
+        <span style={smallColumn}>{item.points}</span>
 
-                <span>{item.num_comments}</span>
+        <span style={smallColumn}>
+          <Button
+            onClick={() => onDismiss(item.objectID)}
+            className="button-inline"
+          >
+            Dismiss
+          </Button>
+        </span>
+      </div>
+    ))}
+    ;
+  </div>
+);
 
-                <span>{item.points}</span>
+const largeColumn = {
+  width: "40%"
+};
 
-                <span>
-                    <button
-                    onClick={() => onDismiss(item.objectID)}
-                    type="button"
-                    >
-                    Dismiss
-                    </button>
-                </span>
-            </div>
-        )};
-     </div>
-     );
-  }
-}
+const midColumn = {
+  width: "30%"
+};
 
-export default Table ;
+const smallColumn = {
+  width: "10%"
+};
+
+export default Table;
