@@ -18,7 +18,8 @@ class App extends Component {
 
     this.state = {
       result: null,
-      searchTerm: DEFAULT_QUERY
+      searchTerm: DEFAULT_QUERY,
+      isLoading: false
     };
     this.setSearchTopStories = this.setSearchTopStories.bind(this);
     this.onDismiss = this.onDismiss.bind(this);
@@ -26,10 +27,11 @@ class App extends Component {
   }
 
   setSearchTopStories = result => {
-    this.setState({ result: result });
+    this.setState({ result: result, isLoading: false });
   };
 
   componentDidMount = () => {
+    this.setState({ isLoading: true });
     const { searchTerm } = this.state;
     fetch(`${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${searchTerm}`)
       .then(response => response.json())
@@ -38,8 +40,12 @@ class App extends Component {
   };
 
   onDismiss = id => {
-    const updatedList = this.state.list.filter(item => item.objectID !== id);
-    this.setState({ list: updatedList });
+    const updatedHits = this.state.result.hits.filter(
+      item => item.objectID !== id
+    );
+    this.setState({
+      result: { ...this.state.result, hits: updatedHits }
+    });
   };
 
   onSearchChange = event => {
@@ -47,11 +53,14 @@ class App extends Component {
   };
 
   render() {
-    console.log(this.state);
-    const { searchTerm, result } = this.state;
+    const { searchTerm, result, isLoading } = this.state;
 
     if (!result) {
       return null;
+    }
+
+    if (isLoading) {
+      return <p>Loading ... </p>;
     }
 
     return (
