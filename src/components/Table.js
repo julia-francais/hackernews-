@@ -1,11 +1,10 @@
 import React from "react";
-import { isSearched } from "../App";
 import "../App.css";
 import Button from "./Button";
 
-const Table = ({ list, pattern, onDismiss }) => (
+const Table = ({ list, onDismiss }) => (
   <div className="table">
-    {list.filter(isSearched(pattern)).map(item => (
+    {list.map(item => (
       <div key={item.objectID} className="table-row">
         <span style={largeColumn}>
           <a href={item.url}>{item.title}</a>

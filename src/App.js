@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import "./App.css";
-import axios from "axios";
 import Search from "./components/Search";
 import Table from "./components/Table";
 
@@ -23,21 +22,27 @@ class App extends Component {
       isLoading: false
     };
     this.setSearchTopStories = this.setSearchTopStories.bind(this);
+    this.fetchSearchTopStories = this.fetchSearchTopStories.bind(this);
     this.onDismiss = this.onDismiss.bind(this);
     this.onSearchChange = this.onSearchChange.bind(this);
+    this.onSearchSubmit = this.onSearchSubmit.bind(this);
   }
 
   setSearchTopStories = result => {
     this.setState({ result: result, isLoading: false });
   };
 
-  componentDidMount = () => {
-    this.setState({ isLoading: true });
-    const { searchTerm } = this.state;
+  fetchSearchTopStories(searchTerm) {
     fetch(`${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${searchTerm}`)
       .then(response => response.json())
       .then(result => this.setSearchTopStories(result))
       .catch(error => error);
+  }
+
+  componentDidMount = () => {
+    this.setState({ isLoading: true });
+    const { searchTerm } = this.state;
+    this.fetchSearchTopStories(searchTerm);
   };
 
   onDismiss = id => {
@@ -53,13 +58,15 @@ class App extends Component {
     this.setState({ searchTerm: event.target.value });
   };
 
+  onSearchSubmit(event) {
+    const { searchTerm } = this.state;
+    console.log(this.state);
+    this.fetchSearchTopStories(searchTerm);
+    event.preventDefault();
+  }
+
   render() {
     const { searchTerm, result, isLoading } = this.state;
-
-    if (!result) {
-      return null;
-    }
-
     if (isLoading) {
       return <p>Loading ... </p>;
     }
@@ -67,16 +74,18 @@ class App extends Component {
     return (
       <div className="page">
         <div className="interactions">
-          <Search value={searchTerm} onChange={this.onSearchChange}>
+          <Search
+            value={searchTerm}
+            onChange={this.onSearchChange}
+            onSubmit={this.onSearchSubmit}
+          >
             Search
           </Search>
         </div>
 
-        <Table
-          list={result.hits}
-          pattern={searchTerm}
-          onDismiss={this.onDismiss}
-        />
+        {result ? (
+          <Table list={result.hits} onDismiss={this.onDismiss} />
+        ) : null}
       </div>
     );
   }
