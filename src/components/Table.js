@@ -26,7 +26,6 @@ const Table = ({ list, onDismiss }) => (
         </span>
       </div>
     ))}
-    ;
   </div>
 );
 
