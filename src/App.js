@@ -5,7 +5,7 @@ import Table from "./components/Table";
 import Button from "./components/Button";
 
 const DEFAULT_QUERY = "redux";
-const DEFAULT_HPP = "100";
+const DEFAULT_HPP = "50";
 const PATH_BASE = "https://hn.algolia.com/api/v1";
 const PATH_SEARCH = "/search";
 const PARAM_SEARCH = "query=";
