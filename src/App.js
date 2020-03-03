@@ -3,6 +3,7 @@ import "./App.css";
 import Search from "./components/Search";
 import Table from "./components/Table";
 import Button from "./components/Button";
+import PropTypes from "prop-types";
 
 const DEFAULT_QUERY = "redux";
 const DEFAULT_HPP = "50";
