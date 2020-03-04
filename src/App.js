@@ -11,9 +11,17 @@ const PATH_SEARCH = "/search";
 const PARAM_SEARCH = "query=";
 const PARAM_PAGE = "page=";
 const PARAM_HPP = "hitsPerPage=";
-const Loading = () => {
-  return <div> Loading...</div>;
-};
+
+const Loading = () => (
+  <div className="spinner-border text-info" role="status">
+    <span className="sr-only">Loading...</span>
+  </div>
+);
+
+const withLoading = Component => ({ isLoading, ...rest }) =>
+  isLoading ? <Loading /> : <Component {...rest} />;
+
+const ButtonWithLoading = withLoading(Button);
 
 // export const isSearched = searchTerm => item => {
 //   return item.title.toLowerCase().includes(searchTerm.toLowerCase());
@@ -42,7 +50,7 @@ class App extends Component {
     return !this.state.results[searchTerm];
   }
 
-  setSearchTopStories = result => {
+  setSearchTopStories(result) {
     const { hits, page } = result;
     const { searchKey, results } = this.state;
 
@@ -58,7 +66,7 @@ class App extends Component {
       },
       isLoading: false
     });
-  };
+  }
 
   fetchSearchTopStories(searchTerm, page = 0) {
     this.setState({ isLoading: true });
@@ -127,15 +135,12 @@ class App extends Component {
           <Table list={list} onDismiss={this.onDismiss} />
         )}
         <div className="interactions">
-          {isLoading ? (
-            <Loading />
-          ) : (
-            <Button
-              onClick={() => this.fetchSearchTopStories(searchKey, page + 1)}
-            >
-              More
-            </Button>
-          )}
+          <ButtonWithLoading
+            isLoading={isLoading}
+            onClick={() => this.fetchSearchTopStories(searchKey, page + 1)}
+          >
+            More
+          </ButtonWithLoading>
         </div>
       </div>
     );

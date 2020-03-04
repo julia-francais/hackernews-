@@ -2,11 +2,12 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 
 class Search extends Component {
-  componentDidMount() {
-    if (this.input) {
-      this.input.focus();
-    }
-  }
+  //put the focus on the Search input while mounting
+  // componentDidMount() {
+  //   if (this.input) {
+  //     this.input.focus();
+  //   }
+  // }
   render() {
     const { value, onChange, onSubmit, children } = this.props;
     return (

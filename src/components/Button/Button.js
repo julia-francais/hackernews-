@@ -6,6 +6,7 @@ const Button = ({ onClick, className, children }) => (
     {children}
   </button>
 );
+
 Button.propTypes = {
   onClick: PropTypes.func.isRequired,
   className: PropTypes.string,
