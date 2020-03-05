@@ -46,7 +46,8 @@ class App extends Component {
       searchTerm: DEFAULT_QUERY,
       error: null,
       isLoading: false,
-      sortKey: "NONE"
+      sortKey: "NONE",
+      isSortReverse: false
     };
     this.needsToSearchTopStories = this.needsToSearchTopStories.bind(this);
     this.setSearchTopStories = this.setSearchTopStories.bind(this);
@@ -109,6 +110,12 @@ class App extends Component {
     event.preventDefault();
   }
 
+  onSort(sortKey) {
+    const isSortReverse =
+      this.state.sortKey === sortKey && !this.state.isSortReverse;
+    this.setState({ sortKey, isSortReverse });
+  }
+
   onDismiss = id => {
     const { searchKey, results } = this.state;
     const { hits, page } = results[searchKey];
@@ -119,10 +126,6 @@ class App extends Component {
     });
   };
 
-  onSort(sortKey) {
-    this.setState({ sortKey });
-  }
-
   render() {
     const {
       searchTerm,
@@ -130,7 +133,8 @@ class App extends Component {
       searchKey,
       error,
       isLoading,
-      sortKey
+      sortKey,
+      isSortReverse
     } = this.state;
     const page =
       (results && results[searchKey] && results[searchKey].page) || 0;
@@ -158,6 +162,7 @@ class App extends Component {
             list={list}
             sortKey={sortKey}
             onSort={this.onSort}
+            isSortReverse={isSortReverse}
             onDismiss={this.onDismiss}
           />
         )}
