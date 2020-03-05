@@ -3,12 +3,14 @@ import classNames from "classnames";
 import Button from "../Button";
 import PropTypes from "prop-types";
 import { SORTS } from "../../App";
+import { FaArrowsAltV } from "react-icons/fa";
 import "../../App.css";
 
 const Sort = ({ sortKey, activeSortKey, onSort, children }) => {
   const sortClass = classNames("button-inline", {
     "button-active": sortKey === activeSortKey
   });
+
   return (
     <Button onClick={() => onSort(sortKey)} className={sortClass}>
       {children}
@@ -26,21 +28,25 @@ const Table = ({ list, sortKey, isSortReverse, onSort, onDismiss }) => {
         <span style={largeColumn}>
           <Sort sortKey={"TITLE"} onSort={onSort} activeSortKey={sortKey}>
             Title
+            <FaArrowsAltV />
           </Sort>
         </span>
         <span style={midColumn}>
           <Sort sortKey={"AUTHOR"} onSort={onSort} activeSortKey={sortKey}>
             Author
+            <FaArrowsAltV />
           </Sort>
         </span>
         <span style={smallColumn}>
           <Sort sortKey={"COMMENTS"} onSort={onSort} activeSortKey={sortKey}>
             Comments
+            <FaArrowsAltV />
           </Sort>
         </span>
         <span style={smallColumn}>
           <Sort sortKey={"POINTS"} onSort={onSort} activeSortKey={sortKey}>
             Points
+            <FaArrowsAltV />
           </Sort>
         </span>
         <span style={smallColumn}>Archive</span>
