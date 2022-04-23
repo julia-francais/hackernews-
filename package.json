@@ -9,7 +9,7 @@
     "@types/react-test-renderer": "16.9.2",
     "classnames": "2.2.6",
     "enzyme": "3.11.0",
-    "enzyme-adapter-react-16": "1.15.2",
+    "enzyme-adapter-react-16": "1.15.6",
     "jest-snapshot": "25.1.0",
     "lodash": "4.17.15",
     "prop-types": "15.7.2",
